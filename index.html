@@ -165,6 +165,11 @@
             clearInterval(intervalId); // Stop the metronome
             document.getElementById('currentPattern').textContent = 'Current Pattern: None';
             document.getElementById('beatCount').textContent = 'Beats: 0';
+            // Reset all beat buttons to default color
+            const buttons = document.querySelectorAll('.beat-button');
+            buttons.forEach((button) => {
+                button.classList.remove('active-strong', 'active-weak');
+            });
         }
 
         function playBeep(currentBeat, pattern) {
