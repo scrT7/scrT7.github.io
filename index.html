@@ -12,11 +12,13 @@
             background-color: #4CAF50;
             border: none;
             color: white;
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-    <button class="metronome-button" onclick="startMetronome()">Start Metronome</button>
+    <button class="metronome-button" onclick="startMetronome('buleria')">Start Bulería</button>
+    <button class="metronome-button" onclick="startMetronome('solea')">Start Soleá</button>
     <p id="beatCount">Beats: 0</p>
 
     <script>
@@ -24,14 +26,19 @@
         const totalBeats = 12;
         const interval = 500; // Interval in milliseconds (500ms = 120 beats per minute)
         let intervalId;
+
+        const patterns = {
+            buleria: [0, 2, 6, 8, 10], // Bulería strong beats
+            solea: [1, 4, 6, 8, 10] // Soleá strong beats (0-indexed, so positions are 2, 5, 7, 9, 11 in 1-indexed)
+        };
         
-        function startMetronome() {
+        function startMetronome(pattern) {
             beat = 1;
             document.getElementById('beatCount').textContent = 'Beats: ' + beat;
             clearInterval(intervalId); // Clear any existing interval
             intervalId = setInterval(() => {
                 document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-                playBeep(beat - 1); // Adjust index for stronger beats
+                playBeep(beat - 1, pattern); // Adjust index for stronger beats
                 beat++;
                 if (beat > totalBeats) {
                     beat = 1; // Reset beat count for the next loop
@@ -39,12 +46,12 @@
             }, interval);
         }
 
-        function playBeep(currentBeat) {
+        function playBeep(currentBeat, pattern) {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
 
-            if ([0, 3, 6, 8, 10].includes(currentBeat)) {
+            if (patterns[pattern].includes(currentBeat)) {
                 oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
                 gainNode.gain.setValueAtTime(1, audioCtx.currentTime); // Strong beat volume
             } else {
