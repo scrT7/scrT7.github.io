@@ -42,7 +42,7 @@
             buleria: [0, 3, 6, 8, 10], // Bulería strong beats
             solea: [2, 5, 7, 9, 11] // Soleá strong beats
         };
-        
+
         function startMetronome(pattern) {
             currentPattern = pattern;
             beat = 1;
@@ -83,6 +83,7 @@
             document.getElementById('tempoValue').textContent = `${bpm} BPM`;
             if (intervalId) {
                 clearInterval(intervalId); // Restart metronome if already running
+                beat = 1; // Reset beat count
                 startMetronome(currentPattern);
             }
         }
