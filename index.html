@@ -44,7 +44,7 @@
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
 
-            if ([0, 2, 6, 8, 10].includes(currentBeat)) {
+            if ([0, 3, 7, 9, 11].includes(currentBeat)) {
                 oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
                 gainNode.gain.setValueAtTime(1, audioCtx.currentTime); // Strong beat volume
             } else {
