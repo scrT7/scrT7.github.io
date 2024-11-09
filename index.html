@@ -23,18 +23,19 @@
         let beat = 0;
         const totalBeats = 12;
         const interval = 500; // Interval in milliseconds (500ms = 120 beats per minute)
+        let intervalId;
         
         function startMetronome() {
             beat = 0;
             document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-            const intervalId = setInterval(() => {
+            clearInterval(intervalId); // Clear any existing interval
+            intervalId = setInterval(() => {
                 if (beat < totalBeats) {
                     document.getElementById('beatCount').textContent = 'Beats: ' + (beat + 1);
                     playBeep(beat);
                     beat++;
                 } else {
-                    clearInterval(intervalId);
-                    startMetronome(); // Restart the metronome after 12 beats
+                    beat = 0; // Reset beat count for the next loop
                 }
             }, interval);
         }
