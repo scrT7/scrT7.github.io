@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nubol</title>
+    <title>Metronome</title>
     <style>
-        .color-button {
+        .metronome-button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
@@ -16,12 +16,36 @@
     </style>
 </head>
 <body>
-    <button class="color-button" onmousedown="changeColor()">Click me!</button>
+    <button class="metronome-button" onclick="startMetronome()">Start Metronome</button>
+    <p id="beatCount">Beats: 0</p>
 
     <script>
-        function changeColor() {
-            var button = document.querySelector('.color-button');
-            button.style.backgroundColor = button.style.backgroundColor === 'red' ? '#4CAF50' : 'red';
+        let beat = 0;
+        const totalBeats = 12;
+        const interval = 500; // Interval in milliseconds (500ms = 120 beats per minute)
+        
+        function startMetronome() {
+            beat = 0;
+            document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+            const intervalId = setInterval(() => {
+                if (beat < totalBeats) {
+                    document.getElementById('beatCount').textContent = 'Beats: ' + (beat + 1);
+                    playBeep();
+                    beat++;
+                } else {
+                    clearInterval(intervalId);
+                }
+            }, interval);
+        }
+
+        function playBeep() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // 1000 Hz
+            oscillator.connect(audioCtx.destination);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
         }
     </script>
 </body>
