@@ -124,38 +124,6 @@ function startMetronome(pattern) {
     }, interval);
 }
 
-function stopMetronome() {
-    clearInterval(intervalId); // Stop the metronome
-    document.getElementById('currentPattern').textContent = 'Current Pattern: None';
-    document.getElementById('beatCount').textContent = 'Beats: 0';
-    // Reset all beat buttons to default color
-    const buttons = document.querySelectorAll('.beat-button');
-    buttons.forEach((button) => {
-        button.classList.remove('active-strong', 'active-weak');
-    });
-    // Reset strong pattern buttons to default color
-    const strongPatternButtons = document.querySelectorAll('.strong-pattern');
-    strongPatternButtons.forEach((button) => {
-        button.classList.remove('strong-pattern');
-    });
-}
-
-function playBeep(currentBeat, pattern) {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-    if (patterns[pattern].includes(currentBeat)) {
-        oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
-        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime); // Adjusted volume
-    } else {
-        oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
-        gainNode.gain.setValueAtTime(volume * 0.5, audioCtx.currentTime); // Adjusted volume
-    }
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    oscillator.start();
-    oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
-}
 
 function updateTempo(value) {
     interval = parseInt(value, 10);
@@ -170,6 +138,42 @@ function updateTempo(value) {
 function updateVolume(value) {
     volume = parseFloat(value);
     document.getElementById('volumeValue').textContent = `${Math.round(volume * 100)}%`;
+}
+function playBeep(currentBeat, pattern) {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    if (patterns[pattern].includes(currentBeat)) {
+        oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
+        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime); // Adjusted volume
+    } else {
+        oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
+        gainNode.gain.setValueAtTime(volume * 0.5, audioCtx.currentTime); // Adjusted volume
+    }
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    oscillator.start(audioCtx.currentTime); // Start immediately
+    oscillator.stop(audioCtx.currentTime + 0.1); // Ensure beep lasts for 100ms
+}
+
+function startMetronome(pattern) {
+    currentPattern = pattern;
+    beat = 1;
+    document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+    document.getElementById('currentPattern').textContent = 'Current Pattern: ' + pattern.charAt(0).toUpperCase() + pattern.slice(1);
+    createBeatButtons();
+    createStrongPatternButtons(pattern);
+    updateBeatButtons(beat - 1, pattern);
+    clearInterval(intervalId); // Clear any existing interval
+    intervalId = setInterval(() => {
+        document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+        updateBeatButtons(beat - 1, pattern);
+        playBeep(beat - 1, pattern); // Adjust index for stronger beats
+        beat++;
+        if (beat > totalBeats) {
+            beat = 1; // Reset beat count for the next loop
+        }
+    }, interval);
 }
 
 // Initialize beat buttons on page load
