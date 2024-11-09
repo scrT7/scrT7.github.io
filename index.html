@@ -14,17 +14,27 @@
             color: white;
             margin: 5px;
         }
+        .slider-container {
+            margin: 20px 0;
+        }
+        .slider-label {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
     <button class="metronome-button" onclick="startMetronome('buleria')">Start Bulería</button>
     <button class="metronome-button" onclick="startMetronome('solea')">Start Soleá</button>
+    <div class="slider-container">
+        <span class="slider-label">Tempo: </span>
+        <input type="range" min="100" max="1000" value="500" id="tempoSlider" oninput="updateTempo(this.value)">
+        <span id="tempoValue">120 BPM</span>
+    </div>
     <p id="beatCount">Beats: 0</p>
 
     <script>
         let beat = 1;
-        const totalBeats = 12;
-        const interval = 500; // Interval in milliseconds (500ms = 120 beats per minute)
+        let interval = 500; // Initial interval in milliseconds (500ms = 120 beats per minute)
         let intervalId;
 
         const patterns = {
@@ -40,7 +50,7 @@
                 document.getElementById('beatCount').textContent = 'Beats: ' + beat;
                 playBeep(beat - 1, pattern); // Adjust index for stronger beats
                 beat++;
-                if (beat > totalBeats) {
+                if (beat > 12) {
                     beat = 1; // Reset beat count for the next loop
                 }
             }, interval);
@@ -62,8 +72,4 @@
             oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
             oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
-        }
-    </script>
-</body>
-</html>
+            oscillator.stop(audioCtx.currentTime + 0.1); // Be
