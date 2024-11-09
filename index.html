@@ -38,6 +38,9 @@
         .slider-label {
             margin-bottom: 10px;
         }
+        .center-text {
+            text-align: center;
+        }
         .beat-button {
             width: 30px;
             height: 30px;
@@ -63,15 +66,15 @@
                 <span id="tempoValue">120 BPM</span>
             </div>
         </div>
-        <div>
+        <div style="text-align: center;">
             <button class="metronome-button" onclick="startMetronome('buleria')" data-pattern="buleria">Start Bulería</button>
             <button class="metronome-button" onclick="startMetronome('solea')" data-pattern="solea">Start Soleá</button>
             <button class="stop-button" onclick="stopMetronome()">Stop</button>
             <p id="beatCount">Beats: 0</p>
-            <div id="beatButtonsContainer" style="display: flex;">
+            <div id="beatButtonsContainer" style="display: flex; justify-content: center;">
                 <!-- Beat buttons will be generated here -->
             </div>
-            <p id="currentPattern">Current Pattern: None</p>
+            <p id="currentPattern" class="center-text">Current Pattern: None</p>
         </div>
         <div class="controls-container">
             <div class="slider-container">
