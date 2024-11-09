@@ -55,6 +55,9 @@
         .beat-button.active-weak {
             background-color: #888; /* Weak beat color */
         }
+        .beat-button.strong-pattern {
+            background-color: #4CAF50; /* Strong beat pattern color */
+        }
     </style>
 </head>
 <body>
@@ -75,6 +78,9 @@
                 <!-- Beat buttons will be generated here -->
             </div>
             <p id="currentPattern" class="center-text">Current Pattern: None</p>
+            <div id="strongPatternContainer" style="display: flex; justify-content: center;">
+                <!-- Strong pattern buttons will be generated here -->
+            </div>
         </div>
         <div class="controls-container">
             <div class="slider-container">
@@ -108,6 +114,19 @@
             }
         }
 
+        function createStrongPatternButtons(pattern) {
+            const container = document.getElementById('strongPatternContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < totalBeats; i++) {
+                const button = document.createElement('div');
+                button.classList.add('beat-button');
+                if (patterns[pattern].includes(i)) {
+                    button.classList.add('strong-pattern');
+                }
+                container.appendChild(button);
+            }
+        }
+
         function updateBeatButtons(currentBeat, pattern) {
             const buttons = document.querySelectorAll('.beat-button');
             buttons.forEach((button, index) => {
@@ -128,6 +147,7 @@
             document.getElementById('beatCount').textContent = 'Beats: ' + beat;
             document.getElementById('currentPattern').textContent = 'Current Pattern: ' + pattern.charAt(0).toUpperCase() + pattern.slice(1);
             createBeatButtons();
+            createStrongPatternButtons(pattern);
             updateBeatButtons(beat - 1, pattern);
             clearInterval(intervalId); // Clear any existing interval
             intervalId = setInterval(() => {
