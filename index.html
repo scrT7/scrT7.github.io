@@ -30,30 +30,20 @@
             const intervalId = setInterval(() => {
                 if (beat < totalBeats) {
                     document.getElementById('beatCount').textContent = 'Beats: ' + (beat + 1);
-                    playBeep(beat);
+                    playBeep();
                     beat++;
                 } else {
                     clearInterval(intervalId);
-                    startMetronome(); // Restart the metronome after 12 beats
                 }
             }, interval);
         }
 
-        function playBeep(currentBeat) {
+        function playBeep() {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            if ([0, 2, 6, 8, 10].includes(currentBeat)) {
-                oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
-                gainNode.gain.setValueAtTime(1, audioCtx.currentTime); // Strong beat volume
-            } else {
-                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
-                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Regular beat volume
-            }
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // 1000 Hz
+            oscillator.connect(audioCtx.destination);
             oscillator.start();
             oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
         }
