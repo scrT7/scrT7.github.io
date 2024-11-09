@@ -170,6 +170,11 @@
             buttons.forEach((button) => {
                 button.classList.remove('active-strong', 'active-weak');
             });
+            // Reset strong pattern buttons to default color
+            const strongPatternButtons = document.querySelectorAll('.strong-pattern');
+            strongPatternButtons.forEach((button) => {
+                button.classList.remove('strong-pattern');
+            });
         }
 
         function playBeep(currentBeat, pattern) {
