@@ -23,18 +23,19 @@
         let beat = 1;
         const totalBeats = 12;
         const interval = 500; // Interval in milliseconds (500ms = 120 beats per minute)
+        let intervalId;
         
         function startMetronome() {
-            beat =1;
+            beat = 1;
             document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-            const intervalId = setInterval(() => {
-                if (beat < totalBeats) {
-                    document.getElementById('beatCount').textContent = 'Beats: ' + (beat + 1);
-                    playBeep(beat);
+            clearInterval(intervalId); // Clear any existing interval
+            intervalId = setInterval(() => {
+                if (beat <= totalBeats) {
+                    document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+                    playBeep(beat - 1); // Adjust index for stronger beats
                     beat++;
                 } else {
-                    clearInterval(intervalId);
-                    startMetronome(); // Restart the metronome after 12 beats
+                    beat = 1; // Reset beat count for the next loop
                 }
             }, interval);
         }
@@ -44,7 +45,7 @@
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
 
-            if ([0, 3, 7, 9, 11].includes(currentBeat)) {
+            if ([0, 2, 6, 8, 10].includes(currentBeat)) {
                 oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
                 gainNode.gain.setValueAtTime(1, audioCtx.currentTime); // Strong beat volume
             } else {
