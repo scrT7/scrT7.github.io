@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metronome</title>
+    <title>Nubol</title>
     <style>
-        .metronome-button {
+        .color-button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
@@ -16,47 +16,12 @@
     </style>
 </head>
 <body>
-    <button class="metronome-button" onclick="startMetronome()">Start Metronome</button>
-    <p id="beatCount">Beats: 0</p>
+    <button class="color-button" onmousedown="changeColor()">Click me!</button>
 
     <script>
-        let beat = 0;
-        const totalBeats = 11;
-        const interval = 500; // Interval in milliseconds (500ms = 120 beats per minute)
-        let intervalId;
-        
-        function startMetronome() {
-            beat = 0;
-            document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-            clearInterval(intervalId); // Clear any existing interval
-            intervalId = setInterval(() => {
-                if (beat <= totalBeats) {
-                    document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-                    playBeep(beat - 1); // Adjust index for stronger beats
-                    beat++;
-                } else {
-                    beat = 0; // Reset beat count for the next loop
-                }
-            }, interval);
-        }
-
-        function playBeep(currentBeat) {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            if ([0, 3, 7, 9, 11].includes(currentBeat)) {
-                oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
-                gainNode.gain.setValueAtTime(1, audioCtx.currentTime); // Strong beat volume
-            } else {
-                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
-                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Regular beat volume
-            }
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
+        function changeColor() {
+            var button = document.querySelector('.color-button');
+            button.style.backgroundColor = button.style.backgroundColor === 'red' ? '#4CAF50' : 'red';
         }
     </script>
 </body>
