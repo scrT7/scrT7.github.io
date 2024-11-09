@@ -28,10 +28,10 @@
             margin: 2px;
             background-color: #ddd; /* Default color */
         }
-        .beat-button.strong {
+        .beat-button.active-strong {
             background-color: #4CAF50; /* Strong beat color */
         }
-        .beat-button.weak {
+        .beat-button.active-weak {
             background-color: #888; /* Weak beat color */
         }
     </style>
@@ -80,70 +80,7 @@
         function updateBeatButtons(currentBeat, pattern) {
             const buttons = document.querySelectorAll('.beat-button');
             buttons.forEach((button, index) => {
-                button.classList.remove('strong', 'weak', 'active');
-                if (patterns[pattern].includes(index)) {
-                    button.classList.add('strong');
-                } else {
-                    button.classList.add('weak');
-                }
-            });
-            buttons[currentBeat].classList.add('active');
-        }
-
-        function startMetronome(pattern) {
-            currentPattern = pattern;
-            beat = 1;
-            document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-            createBeatButtons();
-            updateBeatButtons(beat - 1, pattern);
-            clearInterval(intervalId); // Clear any existing interval
-            intervalId = setInterval(() => {
-                document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-                updateBeatButtons(beat - 1, pattern);
-                playBeep(beat - 1, pattern); // Adjust index for stronger beats
-                beat++;
-                if (beat > totalBeats) {
-                    beat = 1; // Reset beat count for the next loop
-                }
-            }, interval);
-        }
-
-        function playBeep(currentBeat, pattern) {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            if (patterns[pattern].includes(currentBeat)) {
-                oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
-                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime); // Adjusted volume
-            } else {
-                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
-                gainNode.gain.setValueAtTime(volume * 0.5, audioCtx.currentTime); // Adjusted volume
-            }
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
-        }
-
-        function updateTempo(value) {
-            interval = parseInt(value, 10);
-            const bpm = Math.round(60000 / interval);
-            document.getElementById('tempoValue').textContent = `${bpm} BPM`;
-            if (intervalId) {
-                clearInterval(intervalId); // Restart metronome if already running
-                startMetronome(currentPattern);
-            }
-        }
-
-        function updateVolume(value) {
-            volume = parseFloat(value);
-            document.getElementById('volumeValue').textContent = `${Math.round(volume * 100)}%`;
-        }
-
-        // Initialize beat buttons on page load
-        createBeatButtons();
-    </script>
-</body>
-</html>
+                button.classList.remove('active-strong', 'active-weak');
+                if (index === currentBeat) {
+                    if (patterns[pattern].includes(index)) {
+                        button.classList
