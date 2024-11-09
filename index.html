@@ -34,6 +34,7 @@
 
     <script>
         let beat = 1;
+        const totalBeats = 12;
         let interval = 500; // Initial interval in milliseconds (500ms = 120 beats per minute)
         let intervalId;
         let currentPattern;
@@ -42,51 +43,8 @@
             buleria: [0, 3, 6, 8, 10], // Bulería strong beats
             solea: [2, 5, 7, 9, 11] // Soleá strong beats
         };
-
+        
         function startMetronome(pattern) {
             currentPattern = pattern;
             beat = 1;
             document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-            clearInterval(intervalId); // Clear any existing interval
-            intervalId = setInterval(() => {
-                document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-                playBeep(beat - 1, pattern); // Adjust index for stronger beats
-                beat++;
-                if (beat > totalBeats) {
-                    beat = 1; // Reset beat count for the next loop
-                }
-            }, interval);
-        }
-
-        function playBeep(currentBeat, pattern) {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            if (patterns[pattern].includes(currentBeat)) {
-                oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
-                gainNode.gain.setValueAtTime(1, audioCtx.currentTime); // Strong beat volume
-            } else {
-                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
-                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Regular beat volume
-            }
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
-        }
-
-        function updateTempo(value) {
-            interval = parseInt(value, 10);
-            const bpm = Math.round(60000 / interval);
-            document.getElementById('tempoValue').textContent = `${bpm} BPM`;
-            if (intervalId) {
-                clearInterval(intervalId); // Restart metronome if already running
-                beat = 1; // Reset beat count
-                startMetronome(currentPattern);
-            }
-        }
-    </script>
-</body>
-</html>
