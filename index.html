@@ -18,5 +18,11 @@
 <body>
     <button class="color-button" onmousedown="changeColor()">Click me!</button>
 
+    <script>
+        function changeColor() {
+            var button = document.querySelector('.color-button');
+            button.style.backgroundColor = button.style.backgroundColor === 'red' ? '#4CAF50' : 'red';
+        }
+    </script>
 </body>
 </html>
