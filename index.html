@@ -5,216 +5,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metronome</title>
     <style>
-        .metronome-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #2196F3; /* Changed to blue */
-            border: none;
-            color: white;
-            margin: 5px;
-        }
-        .stop-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #f44336;
-            border: none;
-            color: white;
-            margin: 5px;
-        }
-        .controls-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 20px;
-        }
-        .slider-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .slider-label {
-            margin-bottom: 10px;
-        }
-        .center-text {
-            text-align: center;
-        }
-        .beat-button {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: inline-block;
-            margin: 2px;
-            background-color: #ddd; /* Default color */
-        }
-        .beat-button.active-strong {
-            background-color: #8B4513; /* Changed to brown like wood */
-        }
-        .beat-button.active-weak {
-            background-color: #888; /* Weak beat color */
-        }
-        .beat-button.strong-pattern {
-            background-color: #8B4513; /* Changed to brown like wood for pattern */
-        }
+        .metronome-button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #2196F3; /* Changed to blue */ border: none; color: white; margin: 5px; }
+        .stop-button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #f44336; border: none; color: white; margin: 5px; }
+        .controls-container { display: flex; flex-direction: column; align-items: center; margin-right: 20px; }
+        .slider-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+        .slider-label { margin-bottom: 10px; }
+        .center-text { text-align: center; }
+        .beat-button { width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin: 2px; background-color: #ddd; /* Default color */ }
+        .beat-button.active-strong { background-color: #8B4513; /* Changed to brown like wood */ }
+        .beat-button.active-weak { background-color: #888; /* Weak beat color */ }
+        .beat-button.strong-pattern { background-color: #8B4513; /* Changed to brown like wood for pattern */ }
     </style>
 </head>
 <body>
-    <div style="display: flex;">
-        <div class="controls-container">
-            <div class="slider-container">
-                <span class="slider-label">Tempo: </span>
-                <input type="range" min="100" max="1000" value="500" id="tempoSlider" orient="vertical" style="height: 150px;" oninput="updateTempo(this.value)">
-                <span id="tempoValue">120 BPM</span>
-            </div>
-        </div>
-        <div style="text-align: center;">
-            <button class="metronome-button" onclick="startMetronome('buleria')" data-pattern="buleria">Start Bulería</button>
-            <button class="metronome-button" onclick="startMetronome('solea')" data-pattern="solea">Start Soleá</button>
-            <button class="metronome-button" onclick="startMetronome('fourFour')" data-pattern="fourFour">Start 4/4</button>
-            <button class="stop-button" onclick="stopMetronome()">Stop</button>
-            <p id="beatCount">Beats: 0</p>
-            <div id="beatButtonsContainer" style="display: flex; justify-content: center;">
-                <!-- Beat buttons will be generated here -->
-            </div>
-            <p id="currentPattern" class="center-text">Current Pattern: None</p>
-            <div id="strongPatternContainer" style="display: flex; justify-content: center;">
-                <!-- Strong pattern buttons will be generated here -->
-            </div>
-        </div>
-        <div class="controls-container">
-            <div class="slider-container">
-                <span class="slider-label">Volume: </span>
-                <input type="range" min="0" max="1" step="0.1" value="0.1" id="volumeSlider" orient="vertical" style="height: 150px;" oninput="updateVolume(this.value)">
-                <span id="volumeValue">10%</span>
-            </div>
+<div style="display: flex;">
+    <div class="controls-container">
+        <div class="slider-container">
+            <span class="slider-label">Tempo: </span>
+            <input type="range" min="100" max="1000" value="500" id="tempoSlider" orient="vertical" style="height: 150px;" oninput="updateTempo(this.value)">
+            <span id="tempoValue">120 BPM</span>
         </div>
     </div>
+    <div style="text-align: center;">
+        <button class="metronome-button" onclick="startMetronome('buleria')" data-pattern="buleria">Start Bulería</button>
+        <button class="metronome-button" onclick="startMetronome('solea')" data-pattern="solea">Start Soleá</button>
+        <button class="metronome-button" onclick="startMetronome('fourFour')" data-pattern="fourFour">Start 4/4</button>
+        <button class="metronome-button" onclick="startMetronome('threeFour')" data-pattern="threeFour">Start 3/4</button>
+        <button class="stop-button" onclick="stopMetronome()">Stop</button>
+        <p id="beatCount">Beats: 0</p>
+        <div id="beatButtonsContainer" style="display: flex; justify-content: center;">
+            <!-- Beat buttons will be generated here -->
+        </div>
+        <p id="currentPattern" class="center-text">Current Pattern: None</p>
+        <div id="strongPatternContainer" style="display: flex; justify-content: center;">
+            <!-- Strong pattern buttons will be generated here -->
+        </div>
+    </div>
+    <div class="controls-container">
+        <div class="slider-container">
+            <span class="slider-label">Volume: </span>
+            <input type="range" min="0" max="1" step="0.1" value="0.1" id="volumeSlider" orient="vertical" style="height: 150px;" oninput="updateVolume(this.value)">
+            <span id="volumeValue">10%</span>
+        </div>
+    </div>
+</div>
+<script>
+    let beat = 1;
+    const totalBeats = 12;
+    let interval = 500; // Initial interval in milliseconds (500ms = 120 beats per minute)
+    let intervalId;
+    let currentPattern;
+    let volume = 0.1; // Initial volume (10%)
 
-    <script>
-        let beat = 1;
-        const totalBeats = 12;
-        let interval = 500; // Initial interval in milliseconds (500ms = 120 beats per minute)
-        let intervalId;
-        let currentPattern;
-        let volume = 0.1; // Initial volume (10%)
+    const patterns = {
+        buleria: [0, 3, 6, 8, 10], // Bulería strong beats
+        solea: [2, 5, 7, 9, 11], // Soleá strong beats
+        fourFour: [0, 4, 8], // 4/4 strong beats
+        threeFour: [0, 3, 6, 9, 12] // 3/4 strong beats
+    };
 
-        const patterns = {
-            buleria: [0, 3, 6, 8, 10], // Bulería strong beats
-            solea: [2, 5, 7, 9, 11], // Soleá strong beats
-            fourFour: [0, 4, 8] // 4/4 strong beats
-        };
-
-        function createBeatButtons() {
-            const container = document.getElementById('beatButtonsContainer');
-            container.innerHTML = '';
-            for (let i = 0; i < totalBeats; i++) {
-                const button = document.createElement('div');
-                button.classList.add('beat-button');
-                container.appendChild(button);
-            }
+    function createBeatButtons() {
+        const container = document.getElementById('beatButtonsContainer');
+        container.innerHTML = '';
+        for (let i = 0; i < totalBeats; i++) {
+            const button = document.createElement('div');
+            button.classList.add('beat-button');
+            container.appendChild(button);
         }
+    }
 
-        function createStrongPatternButtons(pattern) {
-            const container = document.getElementById('strongPatternContainer');
-            container.innerHTML = '';
-            for (let i = 0; i < totalBeats; i++) {
-                const button = document.createElement('div');
-                button.classList.add('beat-button');
-                if (patterns[pattern].includes(i)) {
-                    button.classList.add('strong-pattern');
+    function createStrongPatternButtons(pattern) {
+        const container = document.getElementById('strongPatternContainer');
+        container.innerHTML = '';
+        for (let i = 0; i < totalBeats; i++) {
+            const button = document.createElement('div');
+            button.classList.add('beat-button');
+            if (patterns[pattern].includes(i)) {
+                button.classList.add('strong-pattern');
+            }
+            container.appendChild(button);
+        }
+    }
+
+    function updateBeatButtons(currentBeat, pattern) {
+        const buttons = document.querySelectorAll('.beat-button');
+        buttons.forEach((button, index) => {
+            button.classList.remove('active-strong', 'active-weak');
+            if (index === currentBeat) {
+                if (patterns[pattern].includes(index)) {
+                    button.classList.add('active-strong');
+                } else {
+                    button.classList.add('active-weak');
                 }
-                container.appendChild(button);
             }
-        }
+        });
+    }
 
-        function updateBeatButtons(currentBeat, pattern) {
-            const buttons = document.querySelectorAll('.beat-button');
-            buttons.forEach((button, index) => {
-                button.classList.remove('active-strong', 'active-weak');
-                if (index === currentBeat) {
-                    if (patterns[pattern].includes(index)) {
-                        button.classList.add('active-strong');
-                    } else {
-                        button.classList.add('active-weak');
-                    }
-                }
-            });
-        }
-
-        function startMetronome(pattern) {
-            currentPattern = pattern;
-            beat = 1;
-            document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-            document.getElementById('currentPattern').textContent = 'Current Pattern: ' + pattern.charAt(0).toUpperCase() + pattern.slice(1);
-            createBeatButtons();
-            createStrongPatternButtons(pattern);
-            updateBeatButtons(beat - 1, pattern);
-            clearInterval(intervalId); // Clear any existing interval
-            intervalId = setInterval(() => {
-                document.getElementById('beatCount').textContent = 'Beats: ' + beat;
-                updateBeatButtons(beat - 1, pattern);
-                playBeep(beat - 1, pattern); // Adjust index for stronger beats
-                beat++;
-                if (beat > totalBeats) {
-                    beat = 1; // Reset beat count for the next loop
-                }
-            }, interval);
-        }
-
-        function stopMetronome() {
-            clearInterval(intervalId); // Stop the metronome
-            document.getElementById('currentPattern').textContent = 'Current Pattern: None';
-            document.getElementById('beatCount').textContent = 'Beats: 0';
-            // Reset all beat buttons to default color
-            const buttons = document.querySelectorAll('.beat-button');
-            buttons.forEach((button) => {
-                button.classList.remove('active-strong', 'active-weak');
-            });
-            // Reset strong pattern buttons to default color
-            const strongPatternButtons = document.querySelectorAll('.strong-pattern');
-            strongPatternButtons.forEach((button) => {
-                button.classList.remove('strong-pattern');
-            });
-        }
-
-        function playBeep(currentBeat, pattern) {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            if (patterns[pattern].includes(currentBeat)) {
-                oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
-                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime); // Adjusted volume
-            } else {
-                oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
-                gainNode.gain.setValueAtTime(volume * 0.5, audioCtx.currentTime); // Adjusted volume
-            }
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
-        }
-
-        function updateTempo(value) {
-            interval = parseInt(value, 10);
-            const bpm = Math.round(60000 / interval);
-            document.getElementById('tempoValue').textContent = `${bpm} BPM`;
-            if (intervalId) {
-                clearInterval(intervalId); // Restart metronome if already running
-                startMetronome(currentPattern);
-            }
-        }
-
-        function updateVolume(value) {
-            volume = parseFloat(value);
-            document.getElementById('volumeValue').textContent = `${Math.round(volume * 100)}%`;
-        }
-
-        // Initialize beat buttons on page load
+    function startMetronome(pattern) {
+        currentPattern = pattern;
+        beat = 1;
+        document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+        document.getElementById('currentPattern').textContent = 'Current Pattern: ' + pattern.charAt(0).toUpperCase() + pattern.slice(1);
         createBeatButtons();
-    </script>
+        createStrongPatternButtons(pattern);
+        updateBeatButtons(beat - 1, pattern);
+        clearInterval(intervalId); // Clear any existing interval
+        intervalId = setInterval(() => {
+            document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+            updateBeatButtons(beat - 1, pattern);
+            playBeep(beat - 1, pattern); // Adjust index for stronger beats
+            beat++;
+            if (beat > totalBeats) {
+                beat = 1; // Reset beat count for the next loop
+            }
+        }, interval);
+    }
+
+    function stopMetronome() {
+        clearInterval(intervalId); // Stop the metronome
+        document.getElementById('currentPattern').textContent = 'Current Pattern: None';
+        document.getElementById('beatCount').textContent = 'Beats: 0';
+        // Reset all beat buttons to default color
+        const buttons = document.querySelectorAll('.beat-button');
+        buttons.forEach((button) => {
+            button.classList.remove('active-strong', 'active-weak');
+        });
+        // Reset strong pattern buttons to default color
+        const strongPatternButtons = document.querySelectorAll('.strong-pattern');
+        strongPatternButtons.forEach((button) => {
+            button.classList.remove('strong-pattern');
+        });
+    }
+
+    function playBeep(currentBeat, pattern) {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        if (patterns[pattern].includes(currentBeat)) {
+            oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
+            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime); // Adjusted volume
+        } else {
+            oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
+            gainNode.gain.setValueAtTime(volume * 0.5, audioCtx.currentTime); // Adjusted volume
+        }
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration
+    }
+
+    function updateTempo(value) {
+        interval = parseInt(value, 10);
+        const bpm = Math.round(60000 / interval);
+        document.getElementById('tempoValue').textContent = `${bpm} BPM`;
+        if (intervalId) {
+            clearInterval(intervalId); // Restart metronome if already running
+            startMetronome(currentPattern);
+        }
+    }
+
+    function updateVolume(value) {
+        volume = parseFloat(value);
+        document.getElementById('volumeValue').textContent = `${Math.round(volume * 100)}%`;
+    }
+
+    // Initialize beat buttons on page load
+    createBeatButtons();
+</script>
 </body>
 </html>
