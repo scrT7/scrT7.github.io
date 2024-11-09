@@ -20,13 +20,13 @@
     <p id="beatCount">Beats: 0</p>
 
     <script>
-        let beat = 1;
-        const totalBeats = 12;
+        let beat = 0;
+        const totalBeats = 11;
         const interval = 500; // Interval in milliseconds (500ms = 120 beats per minute)
         let intervalId;
         
         function startMetronome() {
-            beat = 1;
+            beat = 0;
             document.getElementById('beatCount').textContent = 'Beats: ' + beat;
             clearInterval(intervalId); // Clear any existing interval
             intervalId = setInterval(() => {
@@ -35,7 +35,7 @@
                     playBeep(beat - 1); // Adjust index for stronger beats
                     beat++;
                 } else {
-                    beat = 1; // Reset beat count for the next loop
+                    beat = 0; // Reset beat count for the next loop
                 }
             }, interval);
         }
