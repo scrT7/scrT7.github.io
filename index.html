@@ -99,6 +99,7 @@
         let currentPattern;
         let volume = 0.1; // Initial volume (10%)
 
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const patterns = {
             buleria: [0, 3, 6, 8, 10], // Bulería strong beats
             solea: [2, 5, 7, 9, 11] // Soleá strong beats
@@ -142,6 +143,9 @@
         }
 
         function startMetronome(pattern) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
             currentPattern = pattern;
             beat = 1;
             document.getElementById('beatCount').textContent = 'Beats: ' + beat;
@@ -178,7 +182,6 @@
         }
 
         function playBeep(currentBeat, pattern) {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
 
