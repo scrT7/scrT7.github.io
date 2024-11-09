@@ -72,6 +72,7 @@
         <div style="text-align: center;">
             <button class="metronome-button" onclick="startMetronome('buleria')" data-pattern="buleria">Start Bulería</button>
             <button class="metronome-button" onclick="startMetronome('solea')" data-pattern="solea">Start Soleá</button>
+            <button class="metronome-button" onclick="startMetronome('fourFour')" data-pattern="fourFour">Start 4/4</button>
             <button class="stop-button" onclick="stopMetronome()">Stop</button>
             <p id="beatCount">Beats: 0</p>
             <div id="beatButtonsContainer" style="display: flex; justify-content: center;">
@@ -101,7 +102,8 @@
 
         const patterns = {
             buleria: [0, 3, 6, 8, 10], // Bulería strong beats
-            solea: [2, 5, 7, 9, 11] // Soleá strong beats
+            solea: [2, 5, 7, 9, 11], // Soleá strong beats
+            fourFour: [0, 4, 8] // 4/4 strong beats
         };
 
         function createBeatButtons() {
