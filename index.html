@@ -30,6 +30,11 @@
         <input type="range" min="100" max="1000" value="500" id="tempoSlider" oninput="updateTempo(this.value)">
         <span id="tempoValue">120 BPM</span>
     </div>
+    <div class="slider-container">
+        <span class="slider-label">Volume: </span>
+        <input type="range" min="0" max="1" step="0.1" value="0.5" id="volumeSlider" oninput="updateVolume(this.value)">
+        <span id="volumeValue">50%</span>
+    </div>
     <p id="beatCount">Beats: 0</p>
 
     <script>
@@ -38,6 +43,7 @@
         let interval = 500; // Initial interval in milliseconds (500ms = 120 beats per minute)
         let intervalId;
         let currentPattern;
+        let volume = 0.5; // Initial volume (50%)
 
         const patterns = {
             buleria: [0, 3, 6, 8, 10], // Bulería strong beats
@@ -66,10 +72,10 @@
 
             if (patterns[pattern].includes(currentBeat)) {
                 oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
-                gainNode.gain.setValueAtTime(1, audioCtx.currentTime); // Strong beat volume
+                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime); // Adjusted volume
             } else {
                 oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
-                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Regular beat volume
+                gainNode.gain.setValueAtTime(volume * 0.5, audioCtx.currentTime); // Adjusted volume
             }
 
             oscillator.connect(gainNode);
@@ -86,6 +92,11 @@
                 clearInterval(intervalId); // Restart metronome if already running
                 startMetronome(currentPattern);
             }
+        }
+
+        function updateVolume(value) {
+            volume = parseFloat(value);
+            document.getElementById('volumeValue').textContent = `${Math.round(volume * 100)}%`;
         }
     </script>
 </body>
