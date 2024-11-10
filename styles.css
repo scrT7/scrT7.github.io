@@ -1,0 +1,146 @@
+.metronome-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4c5aaf;
+    border: none;
+    color: white;
+    margin: 5px;
+}
+.stop-button {
+    
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f44336;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    margin: 24px;
+   /* flex-grow: 1;/*/}
+/* Styling for the controls container */
+.controls-container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+
+
+/* Styling for the volume slider value */
+#volumeValue {
+    margin-top: 10px; /* Adjust margin as needed */
+}
+
+.center-text {
+    text-align: center;
+}
+.beat-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 2px;
+    background-color: #ddd; /* Default color */
+}
+.beat-button.active-strong {
+    background-color: #4c5aaf; /* Strong beat color */
+}
+.beat-button.active-weak {
+    background-color: #888; /* Weak beat color */
+}
+.beat-button.strong-pattern {
+    background-color: #4c5aaf; /* Strong beat pattern color */
+}
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+ 
+    height: 97vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    height: 118px; /* Adjust height as needed */
+}
+
+
+.vertical-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 76x;
+    height: 49; /* Thumb height */
+    background: #f0f0f0; /* Slider background */
+    border-radius: 12px;
+    outline: none;
+    transform: rotate(270deg); /* Rotate slider to vertical */
+    margin-bottom: 14px; /* Space between slider and value */
+}
+
+/* Custom slider thumb */
+.vertical-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px; /* Thumb width */
+    height: 38px; /* Thumb height */
+    background: #4c5aaf; /* Thumb color */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 50%;
+}
+
+.color-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #888;
+    border: none;
+    color: white;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.color-button.active {
+    background-color: #4CAF50; /* Active button color */
+}
+
+
+.container {
+    display: flex;
+    width: 500px; /* Total width of the container */
+    height: 300px; /* Total height of the container */
+    background-color: #fff; /* Background color of the container */
+    border: 1px solid #ccc; /* Border for visual reference */
+}
+
+.column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.side {
+    width: 148px; /* Width of the first and last columns */
+    background-color: #d9d9d9; /* Background color of side columns */
+}
+
+.middle {
+    flex-grow: 1; /* Allows the middle column to fill the remaining space */
+    background-color: #f4f4f4; /* Background color of the middle column */
+}
+
+
+
+
+
+
+
