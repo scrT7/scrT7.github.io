@@ -7,28 +7,22 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <div class="container" >
-        
+    <div class="container" >        
         <div class=" column side  controls-container">
             <div class="slider-container">
         <span class="slider-label">Volume: </span>
         <input class="vertical-slider" type="range" min="0" max="0.8" step="0.02" value="0.1" id="volumeSlider"  style="height: 150px;" oninput="updateVolume(this.value)">
         <span id="volumeValue">10%</span>
             </div>
-        </div>
- 
-        
+        </div>        
         <div class="  middle" style="text-align: center;">
             <button class="stop-button" onclick="stopMetronome()">Stop</button>
-
             <button class="color-button"  onmousedown="changeColor(this)" onclick="startMetronome('buleria')" data-pattern="buleria">Start Bulería</button>
             <button  class="color-button"  onmousedown="changeColor(this)"  onclick="startMetronome('solea')" data-pattern="solea">Start Soleá</button>
             <br>
-            
             <button  class="color-button"  onmousedown="changeColor(this)"  onclick="startMetronome('twoFour')" data-pattern="solea">Start 2/4</button>
             <button  class="color-button"  onmousedown="changeColor(this)"  onclick="startMetronome('thirdFour')" data-pattern="oneThird">Start 3/4 </button>
             <button  class="color-button"  onmousedown="changeColor(this)"  onclick="startMetronome('fourFour')" data-pattern="solea">Start 4/4</button>
-            
             <p id="beatCount">Beats: 0</p>
             <div id="beatButtonsContainer" style="display: flex; justify-content: center;">
                 <!-- Beat buttons will be generated here -->
@@ -37,19 +31,39 @@
             <div id="strongPatternContainer" style="display: flex; justify-content: center;">
                 <!-- Strong pattern buttons will be generated here -->
             </div>
-        </div>
-        
-        
- <div class="column , side controls-container">
+        </div>        
+        <div class="column , side controls-container">
             <div class="slider-container">
                 <span class="slider-label">Tempo: </span>
-                
                 <input class ="vertical-slider" type="range" min="100" max="1000" value="500"  id="tempoSlider" style="height: 149px;"  oninput="updateTempo(this.value)">
-            <!--<input type="range" min="100" max="1000" value="500" id="tempoSlider" orient="vertical" style="height: 150px;" oninput="updateTempo(this.value)">-->
-                <span id="tempoValue">120 BPM</span>
-                
+                <span id="tempoValue">120 BPM</span>                
+            </div>     
+            <div class=" control-container">    
+                <!-- Add this HTML button somewhere in your document -->
+                <button  class="color-button" onmousedown="changeColor(this)" onclick="startMelodyWithPattern('buleria')">Start Melody with Bulería</button>
             </div>
 </div>
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+        
+        
         
 </div> 
         
