@@ -14,9 +14,10 @@
         <input class="vertical-slider" type="range" min="0" max="0.8" step="0.02" value="0.1" id="volumeSlider"  style="height: 150px;" oninput="updateVolume(this.value)">
         <span  id="volumeValue">10%</span>
             </div>
+             <button class="stop-button" onclick="stopMetronome()">Stop</button>
         </div>        
         <div class="  middle" style="text-align: center;">
-            <button class="stop-button" onclick="stopMetronome()">Stop</button>
+           
             <button class="color-button"  onmousedown="changeColor(this)" onclick="startMetronome('buleria')" data-pattern="buleria">Start Bulería</button>
             <button  class="color-button"  onmousedown="changeColor(this)"  onclick="startMetronome('solea')" data-pattern="solea">Start Soleá</button>
             <br>
