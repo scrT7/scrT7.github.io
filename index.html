@@ -10,9 +10,9 @@
     <div class="container" >        
         <div class=" column side  controls-container">
             <div class="slider-container">
-        <span class="slider-label">Volume: </span>
+        <span class="slider-container">Volume: </span>
         <input class="vertical-slider" type="range" min="0" max="0.8" step="0.02" value="0.1" id="volumeSlider"  style="height: 150px;" oninput="updateVolume(this.value)">
-        <span id="volumeValue">10%</span>
+        <span  id="volumeValue">10%</span>
             </div>
         </div>        
         <div class="  middle" style="text-align: center;">
@@ -34,13 +34,13 @@
         </div>        
         <div class="column , side controls-container">
             <div class="slider-container">
-                <span class="slider-label">Tempo: </span>
+                <span class="slider-container">Tempo: </span>
                 <input class ="vertical-slider" type="range" min="100" max="1000" value="500"  id="tempoSlider" style="height: 149px;"  oninput="updateTempo(this.value)">
                 <span id="tempoValue">120 BPM</span>                
             </div>     
-            <div class=" control-container">    
+            <div >    
                 <!-- Add this HTML button somewhere in your document -->
-                <button  class="color-button" onmousedown="changeColor(this)" onclick="startMelodyWithPattern('buleria')">Start Melody with Bulería</button>
+                <button  class="color-button" onmousedown="changeColor(this)" onclick="startMelodyWithPattern('buleria')">Melody </button>
             </div>
 </div>
         
