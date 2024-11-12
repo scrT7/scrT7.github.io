@@ -100,10 +100,10 @@ function playBeep(currentBeat, pattern) {
     const gainNode = audioCtx.createGain();
 
     if (patterns[pattern].includes(currentBeat)) {
-        oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // Strong beat frequency
+        oscillator.frequency.setValueAtTime(1760, audioCtx.currentTime); // Strong beat frequency
         gainNode.gain.setValueAtTime(volume, audioCtx.currentTime); // Adjusted volume
     } else {
-        oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Regular beat frequency
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // Regular beat frequency
         gainNode.gain.setValueAtTime(volume * 0.5, audioCtx.currentTime); // Adjusted volume
     }
 
@@ -144,4 +144,159 @@ function changeColor(button) {
 // Initialize beat buttons on page load
 createBeatButtons();
 
+// Add this function to your JavaScript
+const melody = [
+    { note: 'A', frequency: 880.00, duration: 0.5 }, // Beat 1
+    { note: 'B-flat', frequency: 466.16, duration: 0.25 }, // Beat 2
+    { note: 'A', frequency: 440.00, duration: 0.25 }, // Beat 3
+    { note: 'rest', duration: 0.5 }, // Beat 4
+    { note: 'rest', duration: 0.5 }, // Beat 5
+    { note: 'rest', duration: 0.5 }, // Beat 6
+    { note: 'rest', duration: 0.5 }, // Beat 7
+    { note: 'rest', duration: 0.5 }, // Beat 8
+    { note: 'B-flat', frequency: 466.16, duration: 0.5 }, // Beat 9
+    { note: 'A', frequency: 440.00, duration: 0.5 }, // Beat 10
+    { note: 'B-flat', frequency: 466.16, duration: 0.5 }, // Beat 11
+    { note: 'A', frequency: 440.00, duration: 0.5 } // Beat 12
+];
 
+//function startMelodyWithPattern(pattern) {
+//    if (audioCtx.state === 'suspended') {
+//        audioCtx.resume();
+//    }
+//    currentPattern = pattern;
+//    beat = 1;
+//    document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+//    document.getElementById('currentPattern').textContent = 'Current Pattern: ' + pattern.charAt(0).toUpperCase() + pattern.slice(1);
+//    createBeatButtons();
+//    createStrongPatternButtons(pattern);
+//    updateBeatButtons(beat - 1, pattern);
+//    clearInterval(intervalId); // Clear any existing interval
+//    intervalId = setInterval(() => {
+//        document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+//        updateBeatButtons(beat - 1, pattern);
+//        playBeep(beat - 1, pattern); // Adjust index for stronger beats
+//        playNoteForCurrentBeat(beat - 1); // Play the melody note for the current beat
+//        beat++;
+//        if (beat > totalBeats) {
+//            beat = 1; // Reset beat count for the next loop
+//        }
+//    }, interval);
+//}
+//
+//function playNoteForCurrentBeat(currentBeat) {
+//    const note = melody[currentBeat];
+//    if (note.note !== 'rest') {
+//        const oscillator = audioCtx.createOscillator();
+//        const gainNode = audioCtx.createGain();
+//
+//        oscillator.frequency.setValueAtTime(note.frequency, audioCtx.currentTime);
+//        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+//
+//        oscillator.connect(gainNode);
+//        gainNode.connect(audioCtx.destination);
+//        oscillator.start();
+//        oscillator.stop(audioCtx.currentTime + note.duration);
+//    }
+//}
+// Define the new improvised melody for Bulería
+const improvisedMelody = [
+    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 1
+    { note: 'D', frequency: 587.33, duration: 0.5 }, // Beat 2
+    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 3
+    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 4
+    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 5
+    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 6
+    { note: 'rest', duration: 0.5 }, // Beat 7
+    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 8
+    { note: 'D', frequency: 587.33, duration: 0.5 }, // Beat 9
+    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 10
+    { note: 'D', frequency: 587.33, duration: 0.5 }, // Beat 11
+    { note: 'C', frequency: 523.25, duration: 0.5 } // Beat 12
+];
+
+// Update the playNoteForCurrentBeat function to randomly choose a melody
+function playNoteForCurrentBeat(currentBeat) {
+    const melodies = [melody, improvisedMelody];
+    const selectedMelody = melodies[Math.floor(Math.random() * melodies.length)];
+    const note = selectedMelody[currentBeat];
+    if (note.note !== 'rest') {
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.frequency.setValueAtTime(note.frequency, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + note.duration);
+    }
+}
+
+// Update the startMelodyWithPattern function to use the updated playNoteForCurrentBeat function
+function startMelodyWithPattern(pattern) {
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+    currentPattern = pattern;
+    beat = 1;
+    document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+    document.getElementById('currentPattern').textContent = 'Current Pattern: ' + pattern.charAt(0).toUpperCase() + pattern.slice(1);
+    createBeatButtons();
+    createStrongPatternButtons(pattern);
+    updateBeatButtons(beat - 1, pattern);
+    clearInterval(intervalId); // Clear any existing interval
+    intervalId = setInterval(() => {
+        document.getElementById('beatCount').textContent = 'Beats: ' + beat;
+        updateBeatButtons(beat - 1, pattern);
+        playBeep(beat - 1, pattern); // Adjust index for stronger beats
+        playNoteForCurrentBeat(beat - 1); // Play the melody note for the current beat
+        beat++;
+        if (beat > totalBeats) {
+            beat = 1; // Reset beat count for the next loop
+        }
+    }, interval);
+}
+
+
+
+
+
+
+//
+//
+//// Define the new melody without rest sounds
+//const newMelody = [
+//    { note: 'E', frequency: 659.25, duration: 0.5 }, // Beat 1
+//    { note: 'F', frequency: 698.46, duration: 0.5 }, // Beat 2
+//    { note: 'E', frequency: 659.25, duration: 0.5 }, // Beat 3
+//    { note: 'G', frequency: 783.99, duration: 0.5 }, // Beat 4
+//    { note: 'A', frequency: 880.00, duration: 0.5 }, // Beat 5
+//    { note: 'G', frequency: 783.99, duration: 0.5 }, // Beat 6
+//    { note: 'F', frequency: 698.46, duration: 0.5 }, // Beat 7
+//    { note: 'E', frequency: 659.25, duration: 0.5 }, // Beat 8
+//    { note: 'C', frequency: 523.25, duration: 0.5 }, // Beat 9
+//    { note: 'B', frequency: 493.88, duration: 0.5 }, // Beat 10
+//    { note: 'A', frequency: 440.00, duration: 0.5 }, // Beat 11
+//    { note: 'G', frequency: 783.99, duration: 0.5 } // Beat 12
+//];
+//
+//// Update the playNoteForCurrentBeat function to randomly choose a melody
+//function playNoteForCurrentBeat(currentBeat) {
+//    const melodies = [melody, improvisedMelody, newMelody];
+//    const selectedMelody = melodies[Math.floor(Math.random() * melodies.length)];
+//    const note = selectedMelody[currentBeat];
+//    if (note.note !== 'rest') {
+//        const oscillator = audioCtx.createOscillator();
+//        const gainNode = audioCtx.createGain();
+//
+//        oscillator.frequency.setValueAtTime(note.frequency, audioCtx.currentTime);
+//        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+//
+//        oscillator.connect(gainNode);
+//        gainNode.connect(audioCtx.destination);
+//        oscillator.start();
+//        oscillator.stop(audioCtx.currentTime + note.duration);
+//    }
+//}
